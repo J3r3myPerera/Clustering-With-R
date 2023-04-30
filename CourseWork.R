@@ -129,6 +129,7 @@ bss
 
 #illustration of the clusters
 fviz_cluster(kc,data=vehiclesClean)
+fviz_cluster(kc, data = vehiclesClean, ellipse.type = "euclid",star.plot = TRUE, repel = TRUE, ggtheme = theme_minimal())
 
 #getting the silhouette coefficient
 sil <- silhouette(kc$cluster, dist(vehiclesClean))
@@ -136,7 +137,7 @@ fviz_silhouette(sil)
 
 
 #2nd Subtask
-#Appling the PCS method
+#Appling the PCA 
 df = cbind(vehicles$Comp , vehicles$Circ, vehicles$D.Circ, vehicles$Rad.Ra, vehicles$Pr.Axis.Ra, vehicles$Max.L.Ra, vehicles$Scat.Ra, vehicles$Elong, vehicles$Pr.Axis.Rect, vehicles$Max.L.Rect, vehicles$Sc.Var.Maxis, vehicles$Sc.Var.maxis, vehicles$Ra.Gyr, vehicles$Skew.Maxis, vehicles$Skew.maxis, vehicles$Kurt.maxis, vehicles$Kurt.Maxis, vehicles$Holl.Ra)
 df1 = cbind(vehiclesClean$Comp , vehiclesClean$Circ, vehiclesClean$D.Circ, vehiclesClean$Rad.Ra, vehiclesClean$Pr.Axis.Ra, vehiclesClean$Max.L.Ra, vehiclesClean$Scat.Ra, vehiclesClean$Elong, vehiclesClean$Pr.Axis.Rect, vehiclesClean$Max.L.Rect, vehiclesClean$Sc.Var.Maxis, vehiclesClean$Sc.Var.maxis, vehiclesClean$Ra.Gyr, vehiclesClean$Skew.Maxis, vehiclesClean$Skew.maxis, vehiclesClean$Kurt.maxis, vehiclesClean$Kurt.Maxis, vehiclesClean$Holl.Ra)
 
@@ -151,21 +152,21 @@ vehiclesNew = as.data.frame(-pca_vehicels1$x[,1:8])
 head(vehiclesNew)
 
 #The new k according to the Elbow method
-fviz_nbclust(vehiclesNew, kmeans, method='wss') # this suggests 3 clusters
+fviz_nbclust(vehiclesNew, kmeans, method='wss') 
 
 #Using the avarage silhouette method
-fviz_nbclust(vehiclesNew, kmeans, method = 'silhouette')# here 2 is the optimal while the second suggestion is 3
+fviz_nbclust(vehiclesNew, kmeans, method = 'silhouette')
 
 #Using the gap-star method
-fviz_nbclust(vehiclesNew, kmeans, method = 'gap_stat')#here the optimal number of clusters are 8
+fviz_nbclust(vehiclesNew, kmeans, method = 'gap_stat')
 
 #Using the  NBclust method
 xNew = vehiclesNew[]
-clusterNoNew=NbClust(xNew,distance="euclidean", min.nc=2,max.nc=15,method="kmeans",index="all")#this suggests using 2 clusters
-clusterNoNew=NbClust(xNew,distance = "manhattan", min.nc=2,max.nc=15,method="kmeans",index="all")#this also suggests using 2 clusters
-clusterNoNew=NbClust(xNew,distance="maximum", min.nc=2,max.nc=15,method="kmeans",index="all")#this also suggest to use 2 clusters
+clusterNoNew=NbClust(xNew,distance="euclidean", min.nc=2,max.nc=15,method="kmeans",index="all")
+clusterNoNew=NbClust(xNew,distance = "manhattan", min.nc=2,max.nc=15,method="kmeans",index="all")
+clusterNoNew=NbClust(xNew,distance="maximum", min.nc=2,max.nc=15,method="kmeans",index="all")
 
-#using number of clusters as 3
+#using number of clusters as 2
 k =2
 kmeans_vehicles = kmeans(vehiclesNew, centers = k, nstart = 10)
 kmeans_vehicles
