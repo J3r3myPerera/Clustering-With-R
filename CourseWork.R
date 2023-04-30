@@ -13,6 +13,9 @@ standardize = function(x) {
 vehiclesNormZ <- as.data.frame(apply(vehicles[2:18],2,standardize))
 vehiclesNormZ
 
+#Removing NA records
+vehiclesNormZ <- vehiclesNormZ[complete.cases(vehiclesNormZ),]
+
 #check if there are any na values
 sum(is.na(vehiclesNormZ))
 
@@ -104,14 +107,18 @@ set.seed(40)
 WSS = sapply(k, function(k) {kmeans(x, centers=k)$tot.withinss})
 plot(k, WSS, type="l", xlab= "Number of k", ylab="Within sum of squares")
 
+#Calling the libaries for fviz_clust function
+library(cluster)
+library(factoextra)
+
 #Using Gap Statistic
 fviz_nbclust(vehiclesClean, kmeans, method = 'gap_stat')
 
-#Using the aaverage silhoute method
+#Using the average silhoute method
 fviz_nbclust(vehiclesClean, kmeans, method = 'silhouette')
 
-#create the kmeans model with 3 clusters
-kc <- kmeans(x,3)
+#create the kmeans model with 2 clusters
+kc <- kmeans(x,2)
 kc
 
 #Checking the "Between Sum of Squares" and the "total within-cluster sum of square"
@@ -122,10 +129,6 @@ bss
 
 #illustration of the clusters
 fviz_cluster(kc,data=vehiclesClean)
-
-
-#calculate the 'total sum of squares' TSS
-mean_kc = mean(kc)
 
 #getting the silhouette coefficient
 sil <- silhouette(kc$cluster, dist(vehiclesClean))
@@ -163,7 +166,7 @@ clusterNoNew=NbClust(xNew,distance = "manhattan", min.nc=2,max.nc=15,method="kme
 clusterNoNew=NbClust(xNew,distance="maximum", min.nc=2,max.nc=15,method="kmeans",index="all")#this also suggest to use 2 clusters
 
 #using number of clusters as 3
-k =3
+k =2
 kmeans_vehicles = kmeans(vehiclesNew, centers = k, nstart = 10)
 kmeans_vehicles
 
