@@ -187,4 +187,11 @@ fviz_silhouette(silNew)
 
 #for the calinski-harabasz index
 clusplot(vehiclesNew, kmeans_vehicles$cluster, color = TRUE, shade=TRUE, labels = 2, lines = 0)
-title(main = paste("Calinski-Harabasz Index =", round(calinski.harabasz(mydata, kmeans_vehicles$cluster),2)))
+
+#For kmeans clustering on pca dataset, compute Calinski-Harabasz Index 
+set.seed(123)
+kmeans_analyse <- kmeans(vehiclesNew , centers = 2)
+Calinski_Harabasz_index <- clusGap(vehiclesNew, kmeans, K.max = 10, nstart = 25)
+
+#Plot Calinski-Harabasz 
+plot(Calinski_Harabasz_index, main = "Calinski-Harabasz Index Plot for K-Means Clustering")
