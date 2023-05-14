@@ -10,7 +10,7 @@ standardize = function(x) {
 }
 
 #using Z-Score Standardization 
-vehiclesNormZ <- as.data.frame(apply(vehicles[2:18],2,standardize))
+vehiclesNormZ <- as.data.frame(apply(vehicles[2:19],2,standardize))
 vehiclesNormZ
 
 #Removing NA records
